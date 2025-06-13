@@ -1,34 +1,27 @@
-import { useState } from "react";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import AddDialog from "@/components/common/AddDialog";
+
+import { TableDemo } from "@/components/common/Table";
+import { useQuery } from "@tanstack/react-query";
+import { getCurrentPurchases } from "@/api/purchase";
+import DeleteDialog from "@/components/common/DeleteDialog";
 
 function Home() {
-  const [number, setNumber] = useState<string>("");
-  const [result, setResult] = useState<string | null>(null);
+  const { data } = useQuery({
+    queryKey: ["current-purchases"],
+    queryFn: () => getCurrentPurchases(),
+    staleTime: 0,
+  });
 
   //Adding all the digits
-  const AddDigits = (num: string): number => {
-    let sum: number = [...num].reduce((acc, digit) => acc + Number(digit), 0);
-
-    return sum;
-  };
-
-  //Checking if the total is single digits
-  const handleCheck = () => {
-    const singleDigit: number = AddDigits(number);
-    setResult(
-      `The  sum of the number ${number} is ${singleDigit} and ${
-        singleDigit <= 9 ? `it's` : `it's not`
-      } a singleDigit`
-    );
-  };
-
+  console.log("✅ useQuery is running with id:");
+  console.log(data);
   return (
-    <>
-      <Input onChange={(e) => setNumber(e.target.value)} />
-      <Button onClick={handleCheck}>compute</Button>
-      {result && <p>{result}</p>}
-    </>
+    <div style={{ background: "red" }}>
+      <div className="text-right">
+        <AddDialog />
+      </div>
+      <TableDemo datas={data?.item} />
+    </div>
   );
 }
 

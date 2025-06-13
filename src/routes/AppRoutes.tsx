@@ -13,10 +13,10 @@ import ProtectedRoute from "../auth/protectedRoute";
 const routes: RouteObject[] = [
   {
     path: "/",
-    element: <MainLayout />,
+    element: <ProtectedRoute />,
     children: [
       {
-        element: <ProtectedRoute />, // 👈 wrap protected routes
+        element: <MainLayout />, // 👈 wrap protected routes
         children: [
           { index: true, element: <HomePage /> },
           { path: "about", element: <AboutPage /> },
