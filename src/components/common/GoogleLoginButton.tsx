@@ -7,9 +7,9 @@ const GoogleLoginButton: React.FC = () => {
       console.error("Google login failed: No credential returned");
       return;
     }
-    console.log(jwtDecode(credentialResponse.credential));
+    console.log(credentialResponse);
     try {
-      const res = await fetch("http://localhost:5000/api/auth/google", {
+      const res = await fetch("http://localhost:3000/api/user/google", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
