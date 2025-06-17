@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import GoogleLoginButton from "./GoogleLoginButton";
 type LoginFormType = {
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
   className?: string;
@@ -57,9 +58,7 @@ export function LoginForm({ className, onSubmit }: LoginFormType) {
                 <Button type="submit" className="w-full">
                   Login
                 </Button>
-                <Button variant="outline" className="w-full">
-                  Login with Google
-                </Button>
+                <GoogleLoginButton />
               </div>
             </div>
             <div className="mt-4 text-center text-sm">
