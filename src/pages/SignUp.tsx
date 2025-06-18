@@ -1,20 +1,19 @@
-import { loginUser } from "@/api/user";
+import { loginUser, signUpUser } from "@/api/user";
 import { User } from "@/types/user";
 import { useMutation } from "@tanstack/react-query";
 import { Navigate, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
-import { LoginForm } from "@/components/common/LoginForm";
-import { toast } from "sonner";
 
-export default function Login() {
+import { SignUpForm } from "@/components/common/SignUpForm";
+
+export default function SignUp() {
   const navigate = useNavigate();
 
   const mutation = useMutation({
-    mutationFn: (credentials: User) => loginUser(credentials),
+    mutationFn: (credentials: User) => signUpUser(credentials),
     onSuccess: (data) => {
       localStorage.setItem("token", data.accessToken);
       console.log("Login successful:", data.username);
-      toast.success("Logged in successfully!");
       // Redirect or update auth context here
       navigate("/", { replace: true });
     },
@@ -49,7 +48,8 @@ export default function Login() {
     //   )}
     // </form>
     <div>
-      <LoginForm onSubmit={(e) => handleSubmit(e)} />
+
+        <SignUpForm onSubmit={(e) => handleSubmit(e)} />
     </div>
   );
 }

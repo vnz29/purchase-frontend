@@ -9,6 +9,7 @@ import AboutPage from "../pages/About";
 import NotFound from "../pages/NotFound";
 import Login from "../pages/Login";
 import ProtectedRoute from "../auth/protectedRoute";
+import SignUp from "@/pages/SignUp";
 
 const routes: RouteObject[] = [
   {
@@ -28,6 +29,10 @@ const routes: RouteObject[] = [
   {
     path: "/login",
     element: <Login />,
+  },
+    {
+    path: "/signup",
+    element: <SignUp />,
   },
   {
     path: "*",
