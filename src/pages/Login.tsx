@@ -9,11 +9,12 @@ import { toast } from "sonner";
 export default function Login() {
   const navigate = useNavigate();
 
+  if (Cookies.get("accessToken") !== undefined) {
+    return <Navigate to="/" replace />;
+  }
   const mutation = useMutation({
     mutationFn: (credentials: User) => loginUser(credentials),
     onSuccess: (data) => {
-      localStorage.setItem("token", data.accessToken);
-      console.log("Login successful:", data.username);
       toast.success("Logged in successfully!");
       // Redirect or update auth context here
       navigate("/", { replace: true });
@@ -32,10 +33,6 @@ export default function Login() {
 
     mutation.mutate({ username, password });
   };
-
-  if (Cookies.get("accessToken") !== undefined) {
-    return <Navigate to="/" replace />;
-  }
 
   return (
     // <form onSubmit={handleSubmit}>

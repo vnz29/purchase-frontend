@@ -1,4 +1,5 @@
 import { getCurrentUserId } from "@/lib/authClient";
+import { fetchWithRefresh } from "@/lib/fetchWithRefresh";
 
 import {
   CurrentPurchaseResponseHttp,
@@ -13,6 +14,16 @@ export const getCurrentPurchases =
 
     const token = Cookies.get("accessToken");
     try {
+      // const res = await fetchWithRefresh(
+      //   `http://localhost:3000/api/purchase?userID=${id}`,
+      //   {
+      //     method: "GET",
+      //     headers: {
+      //       Authorization: `Bearer ${token}`,
+      //     },
+      //   }
+      // );
+      // console.log(res);
       const res = await fetch(
         // "https://backend-finance-production-bcff.up.railway.app/api/user/login",
         `http://localhost:3000/api/purchase?userID=${id}`,
@@ -24,7 +35,7 @@ export const getCurrentPurchases =
           credentials: "include", // Important!
         }
       );
-      console.log(res);
+
       if (!res.ok) {
         const errorData = await res.json();
 

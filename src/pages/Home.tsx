@@ -3,7 +3,6 @@ import AddDialog from "@/components/common/AddDialog";
 import { TableDemo } from "@/components/common/Table";
 import { useQuery } from "@tanstack/react-query";
 import { getCurrentPurchases } from "@/api/purchase";
-import DeleteDialog from "@/components/common/DeleteDialog";
 
 function Home() {
   const { data } = useQuery({

@@ -9,12 +9,17 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Navigate } from "react-router-dom";
 
+import Cookies from "js-cookie";
 type SignUpFormType = {
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
   className?: string;
 };
 export function SignUpForm({ className, onSubmit }: SignUpFormType) {
+  if (Cookies.get("accessToken") !== undefined) {
+    return <Navigate to="/" replace />;
+  }
   return (
     <div
       className={cn(
@@ -25,7 +30,6 @@ export function SignUpForm({ className, onSubmit }: SignUpFormType) {
       <Card className="w-full max-w-sm">
         <CardHeader>
           <CardTitle className="text-center">Create an acccount</CardTitle>
-        
         </CardHeader>
         <CardContent>
           <form onSubmit={onSubmit}>
@@ -43,7 +47,6 @@ export function SignUpForm({ className, onSubmit }: SignUpFormType) {
               <div className="grid gap-3">
                 <div className="flex items-center">
                   <Label htmlFor="password">Password</Label>
-                
                 </div>
                 <Input id="password" name="password" type="password" required />
               </div>
@@ -51,10 +54,8 @@ export function SignUpForm({ className, onSubmit }: SignUpFormType) {
                 <Button type="submit" className="w-full">
                   Sign up
                 </Button>
-     
               </div>
             </div>
-          
           </form>
         </CardContent>
       </Card>
