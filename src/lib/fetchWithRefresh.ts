@@ -1,6 +1,6 @@
 let isRefreshing = false;
 let refreshPromise: Promise<void> | null = null;
-
+const apiUrl = import.meta.env.VITE_APP_API_URL;
 /**
  * Wrapper around fetch that automatically refreshes tokens on 401 and retries once.
  * @param url The API endpoint URL.
@@ -25,7 +25,7 @@ export async function fetchWithRefresh(
   // If already refreshing, wait for it to complete
   if (!isRefreshing) {
     isRefreshing = true;
-    refreshPromise = fetch("http://localhost:3000/api/user/refreshToken", {
+    refreshPromise = fetch(`${apiUrl}/user/refreshToken`, {
       method: "POST",
       credentials: "include",
     })

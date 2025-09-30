@@ -4,19 +4,16 @@ import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 
 import { LoadingSpinner } from "@/components/ui/loadingSpinner";
-
+const apiUrl = import.meta.env.VITE_APP_API_URL;
 const ProtectedRoute = () => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
 
   const checkAuthentication = async () => {
     try {
-      const response = await fetch(
-        "http://localhost:3000/api/user/refreshToken",
-        {
-          method: "POST",
-          credentials: "include", // sends HttpOnly refresh cookie
-        }
-      );
+      const response = await fetch(`${apiUrl}/user/refreshToken`, {
+        method: "POST",
+        credentials: "include", // sends HttpOnly refresh cookie
+      });
 
       if (!response.ok) throw new Error("Refresh failed");
 
