@@ -1,6 +1,6 @@
 import React from "react";
 import { GoogleLogin, CredentialResponse } from "@react-oauth/google";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "@/store/useAuthStore";
 import Cookies from "js-cookie";
 const GoogleLoginButton: React.FC = () => {

@@ -27,10 +27,7 @@ function DeleteDialog({ purchaseID }: deleteListProps) {
       queryClient.invalidateQueries({ queryKey: ["current-purchases"] });
     },
   });
-  const deleteSpecificPurchase = (
-    e: React.MouseEvent<HTMLButtonElement>,
-    id: string
-  ): void => {
+  const deleteSpecificPurchase = (id: string): void => {
     mutation.mutate(id);
   };
   return (
@@ -49,7 +46,7 @@ function DeleteDialog({ purchaseID }: deleteListProps) {
           <Button variant="outline">Cancel</Button>
           <Button
             variant="destructive"
-            onClick={(e) => deleteSpecificPurchase(e, purchaseID)}
+            onClick={() => deleteSpecificPurchase(purchaseID)}
           >
             Confirm
           </Button>

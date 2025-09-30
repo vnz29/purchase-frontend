@@ -7,7 +7,7 @@ let refreshPromise: Promise<void> | null = null;
  * @param options Fetch options (init object).
  * @returns The fetch Response object.
  */
-export async function fetchWithRefresh<T = any>(
+export async function fetchWithRefresh(
   url: string,
   options: RequestInit = {}
 ): Promise<Response> {

@@ -1,4 +1,4 @@
-import { loginUser, signUpUser } from "@/api/user";
+import { signUpUser } from "@/api/user";
 import { User } from "@/types/user";
 import { useMutation } from "@tanstack/react-query";
 import { Navigate, useNavigate } from "react-router-dom";
@@ -48,8 +48,7 @@ export default function SignUp() {
     //   )}
     // </form>
     <div>
-
-        <SignUpForm onSubmit={(e) => handleSubmit(e)} />
+      <SignUpForm onSubmit={(e) => handleSubmit(e)} />
     </div>
   );
 }
