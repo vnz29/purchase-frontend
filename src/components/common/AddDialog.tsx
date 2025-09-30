@@ -18,6 +18,8 @@ import { useState } from "react";
 
 function AddDialog() {
   const queryClient = useQueryClient();
+  const [open, setOpen] = useState(false);
+
   const [formData, setFormData] = useState({
     name: "",
     amount: 0,
@@ -26,7 +28,7 @@ function AddDialog() {
     mutationFn: (formData: Purchase) => createPurchase(formData),
     onSuccess: () => {
       console.log("successfully added new purchase");
-
+      setOpen(false);
       queryClient.invalidateQueries({ queryKey: ["current-purchases"] });
     },
   });
@@ -44,16 +46,13 @@ function AddDialog() {
   };
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button variant="outline">Add Purchase</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Add</DialogTitle>
-          <DialogDescription>
-            Make changes to your profile here. Click save when you're done.
-          </DialogDescription>
+          <DialogTitle>Add Product</DialogTitle>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
@@ -66,6 +65,7 @@ function AddDialog() {
               onChange={handleChange}
               value={formData.name}
               className="col-span-3"
+              placeholder="Enter Purchase"
             />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
@@ -76,7 +76,7 @@ function AddDialog() {
               id="amount"
               name="amount"
               onChange={handleChange}
-              value={formData.amount}
+              placeholder="Enter Amount"
               type="text"
               inputMode="numeric"
               pattern="[0-9]*"

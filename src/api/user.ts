@@ -9,6 +9,7 @@ import {
 import Cookies from "js-cookie";
 
 export const loginUser = async (data: User): Promise<UserResponseHttp> => {
+  console.log("napasok");
   try {
     const res = await fetch(
       // "https://backend-finance-production-bcff.up.railway.app/api/user/login",

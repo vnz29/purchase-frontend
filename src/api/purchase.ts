@@ -4,6 +4,7 @@ import { fetchWithRefresh } from "@/lib/fetchWithRefresh";
 import {
   CurrentPurchaseResponseHttp,
   EditType,
+  searchType,
   UpdatedPurchaseResponseHttp,
 } from "@/types/user";
 import Cookies from "js-cookie";
@@ -48,6 +49,38 @@ export const getCurrentPurchases =
       throw error;
     }
   };
+
+export const getPurchases = async ({ fromDate, toDate }: searchType) => {
+  const id: string | null = getCurrentUserId();
+
+  const token = Cookies.get("accessToken");
+
+  try {
+    const res = await fetch(
+      // "https://backend-finance-production-bcff.up.railway.app/api/user/login",
+      `http://localhost:3000/api/purchase/search?start_date=${fromDate}&end_date=${toDate}&userID=${id}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+
+        credentials: "include", // Important!
+      }
+    );
+
+    if (!res.ok) {
+      const errorData = await res.json();
+
+      throw new Error(errorData.errorMessage);
+    }
+
+    return res.json();
+  } catch (error) {
+    console.error("Error in createTodo:", error);
+    throw error;
+  }
+};
 
 export const updatePurchase = async ({
   name,

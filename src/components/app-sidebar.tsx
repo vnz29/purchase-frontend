@@ -1,5 +1,5 @@
 import { Calendar, Home, Inbox, Search, Settings } from "lucide-react";
-
+import Cookies from "js-cookie";
 import {
   Sidebar,
   SidebarContent,
@@ -10,22 +10,23 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import { Link } from "react-router-dom";
 
 // Menu items.
 const items = [
   {
     title: "Home",
-    url: "#",
+    url: "/",
     icon: Home,
   },
   {
-    title: "Inbox",
-    url: "#",
+    title: "History",
+    url: "history",
     icon: Inbox,
   },
   {
-    title: "Calendar",
-    url: "#",
+    title: "About",
+    url: "about",
     icon: Calendar,
   },
   {
@@ -37,6 +38,12 @@ const items = [
     title: "Settings",
     url: "#",
     icon: Settings,
+  },
+  {
+    title: "Logout",
+    url: "#", // keep "#" if you want to handle logout in onClick
+    icon: Settings,
+    action: "logout", // <-- custom key so you can detect it
   },
 ];
 
@@ -51,10 +58,26 @@ export function AppSidebar() {
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
-                    <a href={item.url}>
-                      <item.icon />
-                      <span>{item.title}</span>
-                    </a>
+                    {item.action === "logout" ? (
+                      <button
+                        onClick={() => {
+                          // your logout logic here
+                          Cookies.remove("accessToken");
+                          Cookies.remove("refreshToken");
+                          localStorage.clear();
+                          window.location.href = "/login";
+                        }}
+                        className="flex items-center w-full"
+                      >
+                        <item.icon className="mr-2 h-4 w-4" />
+                        <span>{item.title}</span>
+                      </button>
+                    ) : (
+                      <Link to={item.url}>
+                        <item.icon className="mr-2 h-4 w-4" />
+                        <span>{item.title}</span>
+                      </Link>
+                    )}
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}

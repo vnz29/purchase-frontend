@@ -10,6 +10,7 @@ import NotFound from "../pages/NotFound";
 import Login from "../pages/Login";
 import ProtectedRoute from "../auth/protectedRoute";
 import SignUp from "@/pages/SignUp";
+import History from "@/pages/History";
 
 const routes: RouteObject[] = [
   {
@@ -21,6 +22,7 @@ const routes: RouteObject[] = [
         children: [
           { index: true, element: <HomePage /> },
           { path: "about", element: <AboutPage /> },
+          { path: "history", element: <History /> },
           // Add more protected routes here
         ],
       },
@@ -30,7 +32,7 @@ const routes: RouteObject[] = [
     path: "/login",
     element: <Login />,
   },
-    {
+  {
     path: "/signup",
     element: <SignUp />,
   },

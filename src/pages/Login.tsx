@@ -5,6 +5,7 @@ import { Navigate, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import { LoginForm } from "@/components/common/LoginForm";
 import { toast } from "sonner";
+import { DatePickerDemo } from "@/components/common/DatePicker";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -35,16 +36,6 @@ export default function Login() {
   };
 
   return (
-    // <form onSubmit={handleSubmit}>
-    //   <input name="username" type="text" required placeholder="Email" />
-    //   <input name="password" type="password" required placeholder="Password" />
-    //   <button type="submit" disabled={mutation.isPending}>
-    //     {mutation.isPending ? "Logging in..." : "Login"}
-    //   </button>
-    //   {mutation.isError && (
-    //     <p style={{ color: "red" }}> {(mutation.error as Error).message}</p>
-    //   )}
-    // </form>
     <div>
       <LoginForm onSubmit={(e) => handleSubmit(e)} />
     </div>

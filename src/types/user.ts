@@ -44,3 +44,7 @@ export type EditType = {
   amount: number;
   id: string;
 };
+export type searchType = {
+  fromDate: string;
+  toDate: string;
+};
