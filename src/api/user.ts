@@ -7,20 +7,16 @@ import {
   UserResponseHttp,
 } from "@/types/user";
 import Cookies from "js-cookie";
-
+const apiUrl = import.meta.env.VITE_APP_API_URL;
 export const loginUser = async (data: User): Promise<UserResponseHttp> => {
   console.log("napasok");
   try {
-    const res = await fetch(
-      // "https://backend-finance-production-bcff.up.railway.app/api/user/login",
-      "http://localhost:3000/api/user/login",
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-        credentials: "include", // Important!
-      }
-    );
+    const res = await fetch(`${apiUrl}/user/login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+      credentials: "include", // Important!
+    });
     console.log(res);
     if (!res.ok) {
       const errorData = await res.json();
@@ -44,16 +40,12 @@ export const loginUser = async (data: User): Promise<UserResponseHttp> => {
 
 export const signUpUser = async (data: User): Promise<UserResponseHttp> => {
   try {
-    const res = await fetch(
-      // "https://backend-finance-production-bcff.up.railway.app/api/user/login",
-      "http://localhost:3000/api/user/signup",
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-        credentials: "include", // Important!
-      }
-    );
+    const res = await fetch(`${apiUrl}/user/signup`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+      credentials: "include", // Important!
+    });
     console.log(res);
     if (!res.ok) {
       const errorData = await res.json();
@@ -82,19 +74,15 @@ export const createPurchase = async (
   console.log(id);
   const token = Cookies.get("accessToken");
   try {
-    const res = await fetch(
-      // "https://backend-finance-production-bcff.up.railway.app/api/user/login",
-      "http://localhost:3000/api/purchase/addPurchase",
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ ...data, userID: id }),
-        credentials: "include", // Important!
-      }
-    );
+    const res = await fetch(`${apiUrl}/purchase/addPurchase`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ ...data, userID: id }),
+      credentials: "include", // Important!
+    });
     console.log(res);
     if (!res.ok) {
       const errorData = await res.json();

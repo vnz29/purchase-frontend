@@ -3,6 +3,8 @@ import { GoogleLogin, CredentialResponse } from "@react-oauth/google";
 import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "@/store/useAuthStore";
 import Cookies from "js-cookie";
+const apiUrl = import.meta.env.VITE_APP_API_URL;
+
 const GoogleLoginButton: React.FC = () => {
   const navigate = useNavigate();
   const handleLoginSuccess = async (credentialResponse: CredentialResponse) => {
@@ -12,7 +14,7 @@ const GoogleLoginButton: React.FC = () => {
     }
     console.log(credentialResponse);
     try {
-      const res = await fetch("http://localhost:3000/api/user/google", {
+      const res = await fetch(`${apiUrl}/user/google`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

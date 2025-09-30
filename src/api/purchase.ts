@@ -1,5 +1,5 @@
 import { getCurrentUserId } from "@/lib/authClient";
-
+const apiUrl = import.meta.env.VITE_APP_API_URL;
 import {
   CurrentPurchaseResponseHttp,
   EditType,
@@ -14,27 +14,15 @@ export const getCurrentPurchases =
 
     const token = Cookies.get("accessToken");
     try {
-      // const res = await fetchWithRefresh(
-      //   `http://localhost:3000/api/purchase?userID=${id}`,
-      //   {
-      //     method: "GET",
-      //     headers: {
-      //       Authorization: `Bearer ${token}`,
-      //     },
-      //   }
-      // );
-      // console.log(res);
-      const res = await fetch(
-        // "https://backend-finance-production-bcff.up.railway.app/api/user/login",
-        `http://localhost:3000/api/purchase?userID=${id}`,
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          credentials: "include", // Important!
-        }
-      );
+      console.log("hello");
+      console.log(apiUrl);
+      const res = await fetch(`${apiUrl}/purchase?userID=${id}`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        credentials: "include", // Important!
+      });
 
       if (!res.ok) {
         const errorData = await res.json();
@@ -56,8 +44,7 @@ export const getPurchases = async ({ fromDate, toDate }: searchType) => {
 
   try {
     const res = await fetch(
-      // "https://backend-finance-production-bcff.up.railway.app/api/user/login",
-      `http://localhost:3000/api/purchase/search?start_date=${fromDate}&end_date=${toDate}&userID=${id}`,
+      `${apiUrl}/purchase/search?start_date=${fromDate}&end_date=${toDate}&userID=${id}`,
       {
         method: "GET",
         headers: {
@@ -89,18 +76,15 @@ export const updatePurchase = async ({
   const token = Cookies.get("accessToken");
   console.log(id);
   try {
-    const res = await fetch(
-      `http://localhost:3000/api/purchase/updatePurchase/${id}`,
-      {
-        method: "PUT",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ name, amount }),
-        credentials: "include", // Important!
-      }
-    );
+    const res = await fetch(`${apiUrl}/purchase/updatePurchase/${id}`, {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ name, amount }),
+      credentials: "include", // Important!
+    });
     if (!res.ok) {
       const errorData = await res.json();
 
@@ -116,18 +100,15 @@ export const deletePurchase = async (id: string) => {
   const token = Cookies.get("accessToken");
   console.log("napasok");
   try {
-    const res = await fetch(
-      `http://localhost:3000/api/purchase/deletePurchase/${id}`,
-      {
-        method: "PATCH",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ isDeleted: true }),
-        credentials: "include", // Important!
-      }
-    );
+    const res = await fetch(`${apiUrl}/purchase/deletePurchase/${id}`, {
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ isDeleted: true }),
+      credentials: "include", // Important!
+    });
     if (!res.ok) {
       const errorData = await res.json();
 
