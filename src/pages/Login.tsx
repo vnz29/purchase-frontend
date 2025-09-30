@@ -5,7 +5,6 @@ import { Navigate, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import { LoginForm } from "@/components/common/LoginForm";
 import { toast } from "sonner";
-import { DatePickerDemo } from "@/components/common/DatePicker";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -15,7 +14,7 @@ export default function Login() {
   }
   const mutation = useMutation({
     mutationFn: (credentials: User) => loginUser(credentials),
-    onSuccess: (data) => {
+    onSuccess: () => {
       toast.success("Logged in successfully!");
       // Redirect or update auth context here
       navigate("/", { replace: true });

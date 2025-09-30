@@ -1,5 +1,4 @@
 import { getCurrentUserId } from "@/lib/authClient";
-import { fetchWithRefresh } from "@/lib/fetchWithRefresh";
 
 import {
   CurrentPurchaseResponseHttp,

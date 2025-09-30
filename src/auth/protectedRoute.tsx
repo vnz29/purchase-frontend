@@ -9,8 +9,6 @@ const ProtectedRoute = () => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
 
   const checkAuthentication = async () => {
-    const accessToken = Cookies.get("accessToken");
-
     try {
       const response = await fetch(
         "http://localhost:3000/api/user/refreshToken",

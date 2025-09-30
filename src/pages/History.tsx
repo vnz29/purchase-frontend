@@ -8,7 +8,6 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 export default function History() {
-  const [date, setDate] = useState<Date | null>(null);
   const { fromDate, toDate, resetDates, setFromDate, setToDate } =
     useCurrentMonthRange();
   console.log(fromDate, "fromdate");
