@@ -2,64 +2,93 @@
 import { Navigate, Outlet } from "react-router-dom";
 import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
-
 import { LoadingSpinner } from "@/components/ui/loadingSpinner";
+
 const apiUrl = import.meta.env.VITE_APP_API_URL;
+
+// 🛠 Decode JWT safely
+const decodeJwt = (token: string) => {
+  try {
+    const payload = token.split(".")[1];
+    return JSON.parse(atob(payload));
+  } catch {
+    return null;
+  }
+};
+
 const ProtectedRoute = () => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
 
-  const checkAuthentication = async () => {
+  // 🔑 Function to refresh token
+  const refreshAccessToken = async (): Promise<boolean> => {
     try {
       const response = await fetch(`${apiUrl}/user/refreshToken`, {
         method: "POST",
-        credentials: "include", // sends HttpOnly refresh cookie
+        credentials: "include",
       });
 
       if (!response.ok) throw new Error("Refresh failed");
 
       const data = await response.json();
-      console.log("test");
-      console.log(data);
       if (data.accessToken) {
-        // Save new accessToken in cookies
         Cookies.set("accessToken", data.accessToken, {
           secure: true,
-          expires: new Date(Date.now() + 15 * 60 * 1000), // 15m expiry
           sameSite: "Strict",
+          expires: new Date(Date.now() + 15 * 60 * 1000),
         });
+        setIsAuthenticated(true);
         return true;
       }
       return false;
     } catch (err) {
       console.error("❌ Failed to refresh:", err);
+      setIsAuthenticated(false);
       return false;
     }
   };
-
-  // ✅ Run once on mount
+  console.log("test");
   useEffect(() => {
+    console.log("hello");
     let interval: NodeJS.Timeout;
-    console.log("running");
-    const initAuth = async () => {
-      const status = await checkAuthentication();
-      setIsAuthenticated(status);
 
-      if (status) {
-        console.log(status);
-        // ✅ Auto refresh every 14 minutes
-        interval = setInterval(async () => {
-          try {
-            console.log("napasok");
-            const ok = await checkAuthentication();
+    const initAuth = async () => {
+      const token = Cookies.get("accessToken");
+
+      if (token) {
+        const decoded = decodeJwt(token);
+
+        if (decoded?.exp) {
+          const expiry = decoded.exp * 1000; // exp is in seconds
+          console.log(expiry, "expiry");
+          const now = Date.now();
+
+          if (expiry <= now) {
+            // 🔥 Token already expired → refresh immediately
+            const ok = await refreshAccessToken();
             if (!ok) {
               setIsAuthenticated(false);
-              clearInterval(interval);
+              return;
             }
-          } catch (err) {
+          } else {
+            // ✅ Valid token
+            setIsAuthenticated(true);
+          }
+        } else {
+          // No exp claim → force refresh
+          const ok = await refreshAccessToken();
+          setIsAuthenticated(ok);
+        }
+
+        // ⏱ Keep refreshing every 14 minutes
+        interval = setInterval(async () => {
+          const refreshed = await refreshAccessToken();
+          if (!refreshed) {
             setIsAuthenticated(false);
             clearInterval(interval);
           }
         }, 14 * 60 * 1000);
+      } else {
+        setIsAuthenticated(false);
       }
     };
 
@@ -70,7 +99,6 @@ const ProtectedRoute = () => {
     };
   }, []);
 
-  // Loading state
   if (isAuthenticated === null) {
     return <LoadingSpinner />;
   }
