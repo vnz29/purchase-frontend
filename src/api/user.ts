@@ -27,7 +27,7 @@ export const loginUser = async (data: User): Promise<UserResponseHttp> => {
     Cookies.set("accessToken", userData.accessToken, {
       secure: true,
       expires: 15 * 60,
-      sameSite: "Strict", // recommended
+      sameSite: "None", // recommended
     });
     console.log(userData);
     useAuthStore.getState().setUser(userData.id, userData.username);
@@ -56,7 +56,7 @@ export const signUpUser = async (data: User): Promise<UserResponseHttp> => {
     Cookies.set("accessToken", userData.accessToken, {
       secure: true,
       expires: 15 * 60,
-      sameSite: "Strict", // recommended
+      sameSite: "None", // recommended
     });
     console.log(userData);
     useAuthStore.getState().setUser(userData.id, userData.username);

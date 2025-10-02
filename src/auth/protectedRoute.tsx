@@ -33,7 +33,7 @@ const ProtectedRoute = () => {
       if (data.accessToken) {
         Cookies.set("accessToken", data.accessToken, {
           secure: true,
-          sameSite: "Strict",
+          sameSite: "None",
           expires: new Date(Date.now() + 15 * 60 * 1000),
         });
         setIsAuthenticated(true);
