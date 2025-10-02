@@ -59,7 +59,7 @@ const ProtectedRoute = () => {
 
         if (decoded?.exp) {
           const expiry = decoded.exp * 1000; // exp is in seconds
-          console.log(expiry, "expiry");
+          console.log(expiry);
           const now = Date.now();
 
           if (expiry <= now) {
