@@ -36,7 +36,10 @@ export default function Login() {
 
   return (
     <div>
-      <LoginForm onSubmit={(e) => handleSubmit(e)} />
+      <LoginForm
+        onSubmit={(e) => handleSubmit(e)}
+        isPending={mutation.isPending}
+      />
     </div>
   );
 }

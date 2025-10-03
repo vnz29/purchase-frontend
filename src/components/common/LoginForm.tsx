@@ -13,9 +13,10 @@ import { Label } from "@/components/ui/label";
 import { Link } from "react-router-dom";
 type LoginFormType = {
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+  isPending: boolean;
   className?: string;
 };
-export function LoginForm({ className, onSubmit }: LoginFormType) {
+export function LoginForm({ className, isPending, onSubmit }: LoginFormType) {
   return (
     <div
       className={cn(
@@ -63,7 +64,7 @@ export function LoginForm({ className, onSubmit }: LoginFormType) {
               </div>
               <div className="flex flex-col gap-3">
                 <Button type="submit" className="w-full">
-                  Login
+                  {isPending ? "Loading" : "Login"}
                 </Button>
                 {/* <GoogleLoginButton /> */}
               </div>
