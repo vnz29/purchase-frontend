@@ -100,7 +100,11 @@ const ProtectedRoute = () => {
   }, []);
 
   if (isAuthenticated === null) {
-    return <LoadingSpinner />;
+    return (
+      <div className="flex items-center justify-center h-screen w-screen">
+        <LoadingSpinner size={64} />
+      </div>
+    );
   }
 
   return isAuthenticated ? <Outlet /> : <Navigate to="/login" replace />;

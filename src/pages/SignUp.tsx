@@ -3,7 +3,7 @@ import { User } from "@/types/user";
 import { useMutation } from "@tanstack/react-query";
 import { Navigate, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
-
+import { toast } from "sonner";
 import { SignUpForm } from "@/components/common/SignUpForm";
 
 export default function SignUp() {
@@ -12,12 +12,13 @@ export default function SignUp() {
   const mutation = useMutation({
     mutationFn: (credentials: User) => signUpUser(credentials),
     onSuccess: (data) => {
-      localStorage.setItem("token", data.accessToken);
-      console.log("Login successful:", data.username);
+      toast.success(data?.message);
       // Redirect or update auth context here
-      navigate("/", { replace: true });
+      navigate("/login", { replace: true });
     },
-    onError: (error) => {
+    onError: (error: any) => {
+      toast.warning(error.message);
+      console.log(error);
       console.error("Login failed:", error);
     },
   });

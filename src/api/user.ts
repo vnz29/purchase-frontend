@@ -21,7 +21,7 @@ export const loginUser = async (data: User): Promise<UserResponseHttp> => {
     if (!res.ok) {
       const errorData = await res.json();
 
-      throw new Error(errorData.errorMessage);
+      throw new Error(errorData.message);
     }
     const userData: UserResponseHttp = await res.json();
     Cookies.set("accessToken", userData.accessToken, {
@@ -46,20 +46,13 @@ export const signUpUser = async (data: User): Promise<UserResponseHttp> => {
       body: JSON.stringify(data),
       credentials: "include", // Important!
     });
-    console.log(res);
+
     if (!res.ok) {
       const errorData = await res.json();
-
-      throw new Error(errorData.errorMessage);
+      console.log(errorData);
+      throw new Error(errorData.message);
     }
     const userData: UserResponseHttp = await res.json();
-    Cookies.set("accessToken", userData.accessToken, {
-      secure: true,
-      expires: 15 * 60,
-      sameSite: "None", // recommended
-    });
-    console.log(userData);
-    useAuthStore.getState().setUser(userData.id, userData.username);
     return userData;
   } catch (error) {
     console.error("Error in createTodo:", error);

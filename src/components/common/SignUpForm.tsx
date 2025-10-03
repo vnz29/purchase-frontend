@@ -3,17 +3,12 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Navigate } from "react-router-dom";
-
-import Cookies from "js-cookie";
+import { Link } from "react-router-dom";
 type SignUpFormType = {
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
   className?: string;
 };
 export function SignUpForm({ className, onSubmit }: SignUpFormType) {
-  if (Cookies.get("accessToken") !== undefined) {
-    return <Navigate to="/" replace />;
-  }
   return (
     <div
       className={cn(
@@ -34,7 +29,7 @@ export function SignUpForm({ className, onSubmit }: SignUpFormType) {
                   id="username"
                   type="text"
                   name="username"
-                  placeholder="username"
+                  placeholder="Enter your username"
                   required
                 />
               </div>
@@ -42,12 +37,25 @@ export function SignUpForm({ className, onSubmit }: SignUpFormType) {
                 <div className="flex items-center">
                   <Label htmlFor="password">Password</Label>
                 </div>
-                <Input id="password" name="password" type="password" required />
+                <Input
+                  id="password"
+                  name="password"
+                  type="password"
+                  placeholder="Enter your password"
+                  required
+                />
               </div>
+
               <div className="flex flex-col gap-3">
                 <Button type="submit" className="w-full">
                   Sign up
                 </Button>
+              </div>
+              <div className="text-center text-sm">
+                Have an account?{" "}
+                <Link to="/login" className="underline underline-offset-4">
+                  Login
+                </Link>
               </div>
             </div>
           </form>

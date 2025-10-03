@@ -15,9 +15,11 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { FilePenLine } from "lucide-react";
 import { updatePurchase } from "@/api/purchase";
+import { toast } from "sonner";
 
 function EditDialog({ name, amount, id }: EditType) {
   const queryClient = useQueryClient();
+  const [open, setOpen] = useState(false);
   const [formData, setFormData] = useState({
     name: name,
     amount: amount,
@@ -25,9 +27,9 @@ function EditDialog({ name, amount, id }: EditType) {
   });
   const mutation = useMutation({
     mutationFn: (formData: EditType) => updatePurchase(formData),
-    onSuccess: () => {
-      console.log("successfully updated purchase");
-
+    onSuccess: (data) => {
+      toast.success(data?.message);
+      setOpen(false);
       queryClient.invalidateQueries({ queryKey: ["current-purchases"] });
     },
   });
@@ -43,9 +45,17 @@ function EditDialog({ name, amount, id }: EditType) {
     e.preventDefault();
     mutation.mutate(formData);
   };
-
+  console.log(formData);
   return (
-    <Dialog>
+    <Dialog
+      open={open}
+      onOpenChange={(isOpen) => {
+        setOpen(isOpen);
+        if (!isOpen) {
+          setFormData({ name: name, amount: amount, id: id });
+        }
+      }}
+    >
       <DialogTrigger asChild>
         <FilePenLine />
       </DialogTrigger>
@@ -75,10 +85,15 @@ function EditDialog({ name, amount, id }: EditType) {
               name="amount"
               onChange={handleChange}
               value={formData.amount}
-              type="text"
+              type="number"
               inputMode="numeric"
-              pattern="[0-9]*"
+              pattern="\d*"
               className="col-span-3"
+              onKeyDown={(e) => {
+                if (["e", "E", "+", "-"].includes(e.key)) {
+                  e.preventDefault();
+                }
+              }}
             />
           </div>
         </div>

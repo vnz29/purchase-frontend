@@ -14,6 +14,7 @@ import { Label } from "@/components/ui/label";
 import { Purchase } from "@/types/user";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
+import { toast } from "sonner";
 
 function AddDialog() {
   const queryClient = useQueryClient();
@@ -25,8 +26,8 @@ function AddDialog() {
   });
   const mutation = useMutation({
     mutationFn: (formData: Purchase) => createPurchase(formData),
-    onSuccess: () => {
-      console.log("successfully added new purchase");
+    onSuccess: (data) => {
+      toast.success(data?.message);
       setOpen(false);
       queryClient.invalidateQueries({ queryKey: ["current-purchases"] });
     },
@@ -43,9 +44,17 @@ function AddDialog() {
     e.preventDefault();
     mutation.mutate(formData);
   };
-
+  console.log(formData);
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog
+      open={open}
+      onOpenChange={(isOpen) => {
+        setOpen(isOpen);
+        if (!isOpen) {
+          setFormData({ name: "", amount: 0 });
+        }
+      }}
+    >
       <DialogTrigger asChild>
         <Button variant="outline">Add Purchase</Button>
       </DialogTrigger>
@@ -76,10 +85,15 @@ function AddDialog() {
               name="amount"
               onChange={handleChange}
               placeholder="Enter Amount"
-              type="text"
+              type="number"
               inputMode="numeric"
-              pattern="[0-9]*"
+              pattern="\d*"
               className="col-span-3"
+              onKeyDown={(e) => {
+                if (["e", "E", "+", "-"].includes(e.key)) {
+                  e.preventDefault();
+                }
+              }}
             />
           </div>
         </div>

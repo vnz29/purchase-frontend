@@ -9,7 +9,8 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import GoogleLoginButton from "./GoogleLoginButton";
+// import GoogleLoginButton from "./GoogleLoginButton";
+import { Link } from "react-router-dom";
 type LoginFormType = {
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
   className?: string;
@@ -26,7 +27,7 @@ export function LoginForm({ className, onSubmit }: LoginFormType) {
         <CardHeader>
           <CardTitle>Login to your account</CardTitle>
           <CardDescription>
-            Enter your email below to login to your account
+            Enter your username below to login to your account
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -38,7 +39,7 @@ export function LoginForm({ className, onSubmit }: LoginFormType) {
                   id="username"
                   type="text"
                   name="username"
-                  placeholder="username"
+                  placeholder="Enter your username"
                   required
                 />
               </div>
@@ -52,20 +53,29 @@ export function LoginForm({ className, onSubmit }: LoginFormType) {
                     Forgot your password?
                   </a>
                 </div>
-                <Input id="password" name="password" type="password" required />
+                <Input
+                  id="password"
+                  name="password"
+                  type="password"
+                  placeholder="Enter your password"
+                  required
+                />
               </div>
               <div className="flex flex-col gap-3">
                 <Button type="submit" className="w-full">
                   Login
                 </Button>
-                <GoogleLoginButton />
+                {/* <GoogleLoginButton /> */}
               </div>
             </div>
             <div className="mt-4 text-center text-sm">
               Don&apos;t have an account?{" "}
-              <a href="#" className="underline underline-offset-4">
+              <Link to="/signup" className="underline underline-offset-4">
                 Sign up
-              </a>
+              </Link>
+              {/* <a href="#" className="underline underline-offset-4">
+                Sign up
+              </a> */}
             </div>
           </form>
         </CardContent>

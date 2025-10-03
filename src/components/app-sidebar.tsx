@@ -1,4 +1,4 @@
-import { Calendar, Home, Inbox, Search, Settings } from "lucide-react";
+import { Home, Inbox, SquarePower, MessageCircleQuestion } from "lucide-react";
 import Cookies from "js-cookie";
 import {
   Sidebar,
@@ -11,7 +11,8 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { Link } from "react-router-dom";
-
+import { useSelectUsername } from "@/hooks/useSelectUsername";
+import { useNavigate } from "react-router-dom";
 // Menu items.
 const items = [
   {
@@ -27,32 +28,26 @@ const items = [
   {
     title: "About",
     url: "about",
-    icon: Calendar,
+    icon: MessageCircleQuestion,
   },
-  {
-    title: "Search",
-    url: "#",
-    icon: Search,
-  },
-  {
-    title: "Settings",
-    url: "#",
-    icon: Settings,
-  },
+
   {
     title: "Logout",
     url: "#", // keep "#" if you want to handle logout in onClick
-    icon: Settings,
+    icon: SquarePower,
     action: "logout", // <-- custom key so you can detect it
   },
 ];
 
 export function AppSidebar() {
+  const username = useSelectUsername("auth-storage");
+  const navigate = useNavigate();
+
   return (
     <Sidebar>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Application</SidebarGroupLabel>
+          <SidebarGroupLabel>Welcome, {username}</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => (
@@ -65,7 +60,7 @@ export function AppSidebar() {
                           Cookies.remove("accessToken");
                           Cookies.remove("refreshToken");
                           localStorage.clear();
-                          window.location.href = "/login";
+                          navigate("/login");
                         }}
                         className="flex items-center w-full"
                       >

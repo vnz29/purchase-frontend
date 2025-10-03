@@ -20,7 +20,7 @@ export default function Login() {
       navigate("/", { replace: true });
     },
     onError: (error) => {
-      console.error("Login failed:", error);
+      toast.error(error.message);
     },
   });
 

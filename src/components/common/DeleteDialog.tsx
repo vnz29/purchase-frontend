@@ -13,16 +13,20 @@ import { Button } from "@/components/ui/button";
 import { Trash } from "lucide-react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deletePurchase } from "@/api/purchase";
+import { useState } from "react";
+import { toast } from "sonner";
 type deleteListProps = {
   purchaseID: string;
 };
 
 function DeleteDialog({ purchaseID }: deleteListProps) {
   const queryClient = useQueryClient();
+  const [open, setOpen] = useState(false);
   const mutation = useMutation({
     mutationFn: (id: string) => deletePurchase(id),
-    onSuccess: () => {
-      console.log("successfully updated purchase");
+    onSuccess: (data) => {
+      toast.success(data?.message);
+      setOpen(false);
 
       queryClient.invalidateQueries({ queryKey: ["current-purchases"] });
     },
@@ -31,7 +35,12 @@ function DeleteDialog({ purchaseID }: deleteListProps) {
     mutation.mutate(id);
   };
   return (
-    <Dialog>
+    <Dialog
+      open={open}
+      onOpenChange={(isOpen) => {
+        setOpen(isOpen);
+      }}
+    >
       <DialogTrigger asChild>
         <Trash />
       </DialogTrigger>
